@@ -5,16 +5,21 @@ import './style.css';
 
 document.querySelector('.cep-button').addEventListener('click', searchCep);
 
-const showProductsOnScreen = async (callback) => {
-  const data = await callback;
-  console.log(data);
+const products = document.querySelector('.products');
+const loading = document.createElement('p');
 
-  const products = document.querySelector('.products');
-  console.log(products);
+const loadingMessage = () => {
+  loading.classList.add('loading');
+  loading.innerText = 'carregando...';
+  products.appendChild(loading);
+};
+
+const showProductsOnScreen = async (callback) => {
+  loadingMessage();
+  const data = await callback;
 
   data.forEach((product) => products.appendChild(createProductElement(product)));
-
-  return products;
+  products.removeChild(loading);
 };
 
 window.onload = () => {
