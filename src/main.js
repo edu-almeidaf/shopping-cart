@@ -1,4 +1,9 @@
 import { searchCep } from './helpers/cepFunctions';
+import { fetchProductsList } from './helpers/fetchFunctions';
 import './style.css';
-// commit
+
 document.querySelector('.cep-button').addEventListener('click', searchCep);
+
+window.onload = () => {
+  fetchProductsList('computador');
+};
