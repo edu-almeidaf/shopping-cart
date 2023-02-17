@@ -7,6 +7,7 @@ document.querySelector('.cep-button').addEventListener('click', searchCep);
 
 const products = document.querySelector('.products');
 const loading = document.createElement('p');
+const errorEl = document.createElement('p');
 
 const loadingMessage = () => {
   loading.classList.add('loading');
@@ -14,12 +15,22 @@ const loadingMessage = () => {
   products.appendChild(loading);
 };
 
-const showProductsOnScreen = async (callback) => {
-  loadingMessage();
-  const data = await callback;
+const showError = () => {
+  errorEl.classList.add('error');
+  errorEl.innerText = 'Algum erro ocorreu, recarregue a página e tente novamente';
+  products.appendChild(errorEl);
+};
 
-  data.forEach((product) => products.appendChild(createProductElement(product)));
-  products.removeChild(loading);
+const showProductsOnScreen = async (callback) => {
+  try {
+    loadingMessage();
+    const data = await callback;
+    data.forEach((product) => products.appendChild(createProductElement(product)));
+    products.removeChild(loading);
+  } catch (error) {
+    products.removeChild(loading);
+    showError();
+  }
 };
 
 window.onload = () => {
