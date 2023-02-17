@@ -1,6 +1,9 @@
 import { searchCep } from './helpers/cepFunctions';
 import { fetchProductsList } from './helpers/fetchFunctions';
-import { createProductElement } from './helpers/shopFunctions';
+import {
+  addProductsOnCart,
+  createProductElement } from './helpers/shopFunctions';
+import { getSavedCartIDs } from './helpers/cartFunctions';
 import './style.css';
 
 document.querySelector('.cep-button').addEventListener('click', searchCep);
@@ -33,6 +36,15 @@ const showProductsOnScreen = async (callback) => {
   }
 };
 
+const getProductsLocalStorage = async () => {
+  const getIds = getSavedCartIDs();
+  console.log(getIds);
+  await Promise.all(getIds.map(async (id) => {
+    addProductsOnCart(id);
+  }));
+};
+
 window.onload = () => {
   showProductsOnScreen(fetchProductsList('computador'));
+  getProductsLocalStorage();
 };
