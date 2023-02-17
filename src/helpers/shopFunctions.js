@@ -103,25 +103,27 @@ export const createCartProductElement = ({ id, title, price, pictures }) => {
 export const createProductElement = ({ id, title, thumbnail, price }) => {
   const section = document.createElement('section');
   section.className = 'product';
+  // cria a section product
 
   section.appendChild(createCustomElement('span', 'product__id', id));
+  // adiciona um span dentro da section product
 
-  const thumbnailContainer = createCustomElement('div', 'img__container');
-  thumbnailContainer.appendChild(createProductImageElement(thumbnail));
-  section.appendChild(thumbnailContainer);
+  const thumbnailContainer = createCustomElement('div', 'img__container'); // cria a div da img__container
+  thumbnailContainer.appendChild(createProductImageElement(thumbnail)); // cria a imagem e adiciona dentro da div
+  section.appendChild(thumbnailContainer); // adiciona a imagem dentro da section product
 
-  section.appendChild(createCustomElement('span', 'product__title', title));
+  section.appendChild(createCustomElement('span', 'product__title', title)); // cria o span de título e adiciona dentro da section product
 
-  const priceElement = createCustomElement('span', 'product__price', 'R$ ');
-  priceElement.appendChild(createCustomElement('span', 'product__price__value', price));
-  section.appendChild(priceElement);
+  const priceElement = createCustomElement('span', 'product__price', 'R$ '); // cria o span do preço
+  priceElement.appendChild(createCustomElement('span', 'product__price__value', price)); // cria um span dentro do span de preço
+  section.appendChild(priceElement); // adiciona o price dentro da section
 
   const cartButton = createCustomElement(
     'button',
     'product__add',
     'Adicionar ao carrinho!',
   );
-  section.appendChild(cartButton);
+  section.appendChild(cartButton); // cria e adiciona o botão de carrinho
 
   return section;
 };
