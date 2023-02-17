@@ -6,30 +6,30 @@ import './style.css';
 document.querySelector('.cep-button').addEventListener('click', searchCep);
 
 const products = document.querySelector('.products');
-const loading = document.createElement('p');
-const errorEl = document.createElement('p');
+const message = document.createElement('p');
 
-const loadingMessage = () => {
-  loading.classList.add('loading');
-  loading.innerText = 'carregando...';
-  products.appendChild(loading);
-};
-
-const showError = () => {
-  errorEl.classList.add('error');
-  errorEl.innerText = 'Algum erro ocorreu, recarregue a página e tente novamente';
-  products.appendChild(errorEl);
+const createMessage = (text) => {
+  if (text === 'loading') {
+    message.classList.add(text);
+    message.innerText = 'carregando...';
+    products.appendChild(message);
+  }
+  if (text === 'error') {
+    message.classList.add(text);
+    message.innerText = 'Algum erro ocorreu, recarregue a página e tente novamente';
+    products.appendChild(message);
+  }
 };
 
 const showProductsOnScreen = async (callback) => {
   try {
-    loadingMessage();
+    createMessage('loading');
     const data = await callback;
     data.forEach((product) => products.appendChild(createProductElement(product)));
-    products.removeChild(loading);
+    products.removeChild(message);
   } catch (error) {
-    products.removeChild(loading);
-    showError();
+    products.removeChild(message);
+    createMessage('error');
   }
 };
 
