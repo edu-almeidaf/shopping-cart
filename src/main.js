@@ -7,7 +7,20 @@ import {
 import { getSavedCartIDs } from './helpers/cartFunctions';
 import './style.css';
 
-document.querySelector('.cep-button').addEventListener('click', searchCep);
+const findCep = async () => {
+  const cepInput = document.querySelector('.cep-input').value;
+  const cartAddress = document.querySelector('.cart__address');
+  const cepLength = 8;
+
+  if (cepInput.length === cepLength) {
+    const getCep = await searchCep(cepInput);
+    cartAddress.innerText = getCep;
+  } else {
+    cartAddress.innerText = 'O CEP deve conter 8 dígitos!';
+  }
+};
+
+document.querySelector('.cep-button').addEventListener('click', findCep);
 
 const products = document.querySelector('.products');
 const message = document.createElement('p');
@@ -40,8 +53,8 @@ const showProductsOnScreen = async (callback) => {
 const getProductsLocalStorage = async () => {
   const getIds = getSavedCartIDs();
   const cartItem = await Promise.all(getIds.map(async (id) => addProductsOnCart(id)));
-  console.log(cartItem);
   addTotalPrice();
+  return cartItem;
 };
 
 window.onload = () => {

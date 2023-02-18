@@ -1,4 +1,4 @@
-import { getSavedCartIDs, removeCartID, saveCartID } from './cartFunctions';
+import { removeCartID, saveCartID } from './cartFunctions';
 import { fetchProduct } from './fetchFunctions';
 
 // Esses comentários que estão antes de cada uma das funções são chamados de JSdoc,
