@@ -2,6 +2,7 @@ import { searchCep } from './helpers/cepFunctions';
 import { fetchProductsList } from './helpers/fetchFunctions';
 import {
   addProductsOnCart,
+  addTotalPrice,
   createProductElement } from './helpers/shopFunctions';
 import { getSavedCartIDs } from './helpers/cartFunctions';
 import './style.css';
@@ -38,10 +39,9 @@ const showProductsOnScreen = async (callback) => {
 
 const getProductsLocalStorage = async () => {
   const getIds = getSavedCartIDs();
-  console.log(getIds);
-  await Promise.all(getIds.map(async (id) => {
-    addProductsOnCart(id);
-  }));
+  const cartItem = await Promise.all(getIds.map(async (id) => addProductsOnCart(id)));
+  console.log(cartItem);
+  addTotalPrice();
 };
 
 window.onload = () => {

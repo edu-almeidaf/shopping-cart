@@ -41,6 +41,16 @@ export const getIdFromProduct = (product) => (
   product.querySelector('span.product__id').innerText
 );
 
+export const addTotalPrice = () => {
+  // let sum = 0;
+  const totalPrice = document.querySelector('.total-price');
+  // sum += price;
+  const cartPrices = document.querySelectorAll('.cart__products .product__price__value');
+  const result = Array.from(cartPrices)
+    .reduce((accumulator, cartPrice) => accumulator + Number(cartPrice.innerText), 0);
+  totalPrice.innerText = result.toFixed(2);
+};
+
 /**
  * Função que remove o produto do carrinho.
  * @param {Element} li - Elemento do produto a ser removido do carrinho.
@@ -49,6 +59,7 @@ export const getIdFromProduct = (product) => (
 const removeCartProduct = (li, id) => {
   li.remove();
   removeCartID(id);
+  addTotalPrice();
 };
 
 /**
@@ -92,11 +103,14 @@ export const createCartProductElement = ({ id, title, price, pictures }) => {
   return li;
 };
 
-export const addProductsOnCart = async (id) => {
-  saveCartID(id);
+export const addProductsOnCart = async (id, isOnload) => {
   const data = await fetchProduct(id);
   const productCart = document.querySelector('.cart__products');
   productCart.appendChild(createCartProductElement(data));
+  if (isOnload) {
+    saveCartID(id);
+    addTotalPrice();
+  }
 };
 
 /**
@@ -132,7 +146,7 @@ export const createProductElement = ({ id, title, thumbnail, price }) => {
     'product__add',
     'Adicionar ao carrinho!',
   );
-  cartButton.addEventListener('click', () => addProductsOnCart(id));
+  cartButton.addEventListener('click', () => addProductsOnCart(id, true));
   section.appendChild(cartButton); // cria e adiciona o botão de carrinho
 
   return section;
